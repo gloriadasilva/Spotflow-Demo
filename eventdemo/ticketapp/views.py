@@ -48,7 +48,7 @@ def checkout(request):
                 "productName": "Tech Workshop 2025",
                 "title": "dTechreative Ticket",
             },
-            # "callBackUrl": callBackUrl,
+            "callBackUrl": "https://dtechreative.pythonanywhere.com/verify/",
             "customer":{
                 "email": email,
                 "name": username,
