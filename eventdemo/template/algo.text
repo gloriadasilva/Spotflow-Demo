@@ -1,0 +1,15 @@
+- Ticket html
+  - collect user name and email
+  - collect no of Ticketcalculate total amount
+    - This checks if name and email is not empty
+    - Get the no of ticket and multiply by 1000
+    - Pass the totalamount back to ticket.html
+
+- to verify
+  - get frerence
+  - call verify api and pass reference
+    - if response == 200
+      - get the id
+      - get status
+      - get cystomer id( email, name, and amount)
+        - display this in verify html

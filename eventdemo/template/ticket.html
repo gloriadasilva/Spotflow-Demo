@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Workshop 2025</title>
+    <link rel="stylesheet" href="{%static 'event.css' %}">
+</head>
+<body>
+    <section class="event">
+        <nav>
+            <ul class="nav-list">
+                <span>
+                  <li>dTechreative Tickets</li>
+                </span>
+                <span class="others">
+                  <li>Events</li>
+                  <li>Deals</li>
+                  <li>More</li>
+
+                </span>
+            </ul>
+        </nav>
+    </section>
+    <section class="details">
+        <h2 class="workshop"> Tech Workshop 2025</span></h2>
+        <div class="event-details">
+          <div class="details-header">Event Details</div>
+          <div class="entry-field">Date&Time: <span class="entry-ans">Nov 24, 2025, 3pm</span></div>
+          <div class="entry-field">Location: <span class="entry-ans">Lagos, Nigeria</span></div>
+          <div class="entry-field">Price per Ticket: <span class="entry-ans">#1,000</span></div>
+
+        </div>
+    </section>
+    <section class="book-ticket">
+        <h2 class="book">Book a Ticket</h2>
+        <form action="" method="post" class="book-ox">
+            {% csrf_token %}
+            {%for message in messages%}
+              <div style="color: red;">{{message}}</div>
+            {%endfor%}
+            <div class="field">Name:
+              <input type="text" name="username">
+            </div>
+            <div class="field">Email:
+              <input type="email" name="email" required>
+            </div>
+            <div class="field"> <span class="no" >No of Ticket:</span>
+              <input type="text" name="ticket" required>
+            </div>
+            <button type="submit" name="submit"><a>Pay Now</a></button>
+        </form>
+        <br>
+    </section>
+</body>
+</html>

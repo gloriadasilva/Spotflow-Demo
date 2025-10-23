@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Transaction</title>
+    <link rel="stylesheet" href="{%static 'verify.css' %}">
+</head>
+<body>
+    <section class="event">
+        <nav>
+            <ul class="nav-list">
+                <span>
+                  <li>dTechreative Tickets</li>
+                </span>
+                <span class="others">
+                  <li>Events</li>
+                  <li>Deals</li>
+                  <li>More</li>
+
+                </span>
+            </ul>
+        </nav>
+    </section>
+
+    {%if getstatus == "successful"%}
+      <div class="details">
+          <div class="pending-details">
+              <div>Thanks for your purchase, <span class="name">{{extractResponse.name}}</span>.</div>
+              <div class="successful">Your transaction was successful!</div>
+               <div class="ticket-details">
+                   <div>Tech Workshop 2025</div>
+                   <div>Amount: ₦{{extractResponse.amount}}</div>
+                   <div>Transaction ID: {{extractResponse.id}}</div>
+                   <button>Download Receipt</button>
+                </div>
+
+            </div>
+        </div>
+
+    {%endif%}
+    {% if getstatus == "pending"%}
+    <div class="details">
+      <div class="pending-details">
+         <div>Thanks for your purchase, <span class="name">{{extractResponse.name}}</span>.</div>
+         <div class="pending">Your transaction is pending. Please check back later...</div>
+        </div>
+    </div>
+    {%endif%}
+    {% if getstatus == "failed"%}
+      <div class="details">
+           <div class="pending-details">
+            <div>Thanks for your purchase, <span class="name">{{extractResponse.name}}</span>.</div>
+            <div class="failed">Your transaction was not successful. Please check try again.</div>
+           </div>
+      </div>
+    {%endif%}
+</body>
+</html>
