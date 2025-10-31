@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-default-local-key")
+SPOTFLOW_API_KEY = os.environ.get("SPOTFLOW_API_KEY")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&_uls1t5&#ghe1b#fv37cbjz)@e$4wowmi_3xc#fg=u-z16#04'
+# SECRET_KEY = 'django-insecure-&_uls1t5&#ghe1b#fv37cbjz)@e$4wowmi_3xc#fg=u-z16#04'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['dtechreative.pythonanywhere.com']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition

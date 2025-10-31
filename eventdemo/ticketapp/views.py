@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 import requests
 import os
+from django.conf import settings
 # Create your views here.
 
 def ticket(request):
@@ -13,52 +14,47 @@ def ticket(request):
         email = request.POST.get("email")
         ticket = request.POST.get("ticket")
 
-        if not ticket :
-            messages.info(request, "This field is required")
-            return redirect("ticket")
-        else:
+        try:
+            ticket = int(ticket)
+            request.session["ticket"] = ticket
+            request.session["username"] = username
+            request.session["email"] = email
 
-            try:
-                ticket = int(ticket)
-                request.session["ticket"] = ticket
-                request.session["username"] = username
-                request.session["email"] = email
-
-                return redirect("checkout")
-            except ValueError:
-                messages.info(request, "Invalid input")
-                return redirect("ticket")
+            return redirect("checkout")
+        except ValueError:
+            messages.info(request, "Invalid input")
+        return redirect("ticket")
 
     return render(request, "ticket.html",)
 
 def checkout(request):
-    ticket = request.session.get("ticket")
-    username = request.session.get("username")
+    ticket = request.session.get("ticket") # retriev the num
+    username = request.session.get("username") # re
     email = request.session.get("email")
     price = 1000
+    amount = price * ticket
     reference = f"ref-{uuid.uuid4()}"
     currency = "NGN"
-    callBackUrl = "https://www.algoai.one"
     payload = {
             "reference": reference,
-            "amount": ticket * price,
+            "amount": amount,
             "currency": "NGN",
             "localCurrency": currency,
             "metadata": {
                 "productName": "Tech Workshop 2025",
                 "title": "dTechreative Ticket",
             },
-            "callBackUrl": "https://dtechreative.pythonanywhere.com/verify/",
+            # "callBackUrl": "https://dtechreative.pythonanywhere.com/verify/",
             "customer":{
                 "email": email,
                 "name": username,
             }
     
     }
-    API_KEY = "sk_test_3500ece212364e11abd01984afdd67b3"
+    # SPOTFLOW_API_KEY = "sk_test_3500ece212364e11abd01984afdd67b3"
 
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
+        "Authorization": f"Bearer {settings.SPOTFLOW_API_KEY}",
         "Content-Type": "application/json"
     }
     
@@ -92,7 +88,7 @@ def verify(request):
     reference = request.GET.get("reference") or request.session.get("reference")
     API_KEY = "sk_test_3500ece212364e11abd01984afdd67b3"
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
+        "Authorization": f"Bearer {settings.SPOTFLOW_API_KEY}",
         "Content-Type": "application/json"
     }
     response = requests.get(f" https://api.spotflow.co/api/v1/payments/verify?reference={reference}", headers=headers)
