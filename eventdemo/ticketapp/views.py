@@ -44,7 +44,7 @@ def checkout(request):
                 "productName": "Tech Workshop 2025",
                 "title": "dTechreative Ticket",
             },
-            # "callBackUrl": "https://dtechreative.pythonanywhere.com/verify/",
+            "callBackUrl": "https://spotflow-demo.onrender.com/verify/",
             "customer":{
                 "email": email,
                 "name": username,
