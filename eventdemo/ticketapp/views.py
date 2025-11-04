@@ -6,6 +6,13 @@ import os
 from django.conf import settings
 # Create your views here.
 
+# for webhook
+
+import json
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
+
+
 def ticket(request):
     
     if request.method == "POST":
@@ -52,7 +59,7 @@ def checkout(request):
     
     }
     # SPOTFLOW_API_KEY = "sk_test_3500ece212364e11abd01984afdd67b3"
-
+    #  sk_test_3500ece212364e11abd01984afdd67b3
     headers = {
         "Authorization": f"Bearer {settings.SPOTFLOW_API_KEY}",
         "Content-Type": "application/json"
@@ -111,3 +118,23 @@ def verify(request):
     ticket = request.session.get("ticket")
 
     return render(request, "verify.html", { "username": username, "ticket": ticket, "extractResponse": extractResponse, "getstatus": extractResponse.get("status")})
+
+@csrf_exempt
+def webhook (request):
+    if request.method == "POST":
+        try:
+            payload = json.loads(request.body)
+            eventType = payload.get("event")
+            data = payload.get("data", {})
+            if eventType == "payment_sucessful":
+                reference = data.get("reference")
+                amount = data.get("amount")
+                print("Payment sucessful with ID", reference, "Amount", amount)
+            elif eventType == "payment_failed":
+                reference = data.get("reference")
+                print("Payment failed with ID", reference)
+            return JsonResponse({"status": "success"}, status=200)
+        except Exception as e:
+            print("Error processing webhook", e)
+            return JsonResponse({"status": "error"}, status=400)
+    return JsonResponse({"status": "Method not allowed"}, status=405)
