@@ -124,7 +124,7 @@ def verify(request):
 def webhook (request):
     if request.method == "POST":
         secretKey = "sk_test_3500ece212364e11abd01984afdd67b3"
-        signature = request.headers.get("x-spotflow-signature-")
+        signature = request.headers.get("x-spotflow-signature")
         payload = request.body
         computed_signature = hmac.new(
           secretKey.encode(),
