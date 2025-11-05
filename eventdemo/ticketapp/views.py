@@ -139,7 +139,7 @@ def webhook (request):
             payload = json.loads(request.body)
             eventType = payload.get("event")
             data = payload.get("data", {})
-            if eventType == "payment_sucessful":
+            if eventType == "payment_successful":
                 reference = data.get("reference")
                 amount = data.get("amount")
                 print("Payment sucessful with ID", reference, "Amount", amount)
