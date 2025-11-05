@@ -126,11 +126,11 @@ def webhook (request):
         secretKey = "sk_test_3500ece212364e11abd01984afdd67b3"
         signature = request.headers.get("x-spotflow-signature")
         payload = request.body
-
+        payloadString = json.dumps(payload, separators=(',', ':'))
 
         computed_signature = hmac.new(
           secretKey.encode(),
-          payload,
+          payloadString.encode(),
           hashlib.sha512
        ).hexdigest()
        
