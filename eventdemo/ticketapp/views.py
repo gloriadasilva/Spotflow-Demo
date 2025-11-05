@@ -129,7 +129,7 @@ def webhook (request):
         computed_signature = hmac.new(
           secretKey.encode(),
           payload,
-          hashlib.sha256
+          hashlib.sha512
        ).hexdigest()
        
         if not hmac.compare_digest(computed_signature, signature):
