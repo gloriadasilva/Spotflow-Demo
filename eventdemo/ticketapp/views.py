@@ -126,12 +126,21 @@ def webhook (request):
         secretKey = "sk_test_3500ece212364e11abd01984afdd67b3"
         signature = request.headers.get("x-spotflow-signature")
         payload = request.body
+
+
         computed_signature = hmac.new(
           secretKey.encode(),
           payload,
           hashlib.sha512
        ).hexdigest()
        
+        print("=== WEBHOOK DEBUG ===")
+        print("Received Signature:", signature)
+        print("Computed Signature:", computed_signature)
+        print("Payload:", payload.decode("utf-8"))
+        print("=====================")
+
+
         if not hmac.compare_digest(computed_signature, signature):
             return JsonResponse({"status": "forbidden"}, status=403)
 
