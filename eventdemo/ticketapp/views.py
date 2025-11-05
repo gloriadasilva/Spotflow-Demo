@@ -2,7 +2,6 @@ import uuid
 from django.shortcuts import render, redirect
 from django.contrib import messages
 import requests
-import os
 from django.conf import settings
 # Create your views here.
 
@@ -12,6 +11,8 @@ import json
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 
+import hmac
+import hashlib
 
 def ticket(request):
     
@@ -122,6 +123,18 @@ def verify(request):
 @csrf_exempt
 def webhook (request):
     if request.method == "POST":
+        secretKey = "sk_test_3500ece212364e11abd01984afdd67b3"
+        signature = request.headers.get("x-spotflow-signature-")
+        payload = request.body
+        computed_signature = hmac.new(
+          secretKey.encode(),
+          payload,
+          hashlib.sha256
+       ).hexdigest()
+       
+        if not hmac.compare_digest(computed_signature, signature):
+            return JsonResponse({"status": "forbidden"}, status=403)
+
         try:
             payload = json.loads(request.body)
             eventType = payload.get("event")
