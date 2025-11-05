@@ -123,7 +123,7 @@ def verify(request):
 @csrf_exempt
 def webhook (request):
     if request.method == "POST":
-        secretKey = "sk_test_3500ece212364e11abd01984afdd67b3"
+        secretKey = "f0pJPXNfmMpM/3CZkckwM5CzxiTCQZZZ3oS/2Xx0/BE="
         signature = request.headers.get("x-spotflow-signature")
         payload = request.body
 
