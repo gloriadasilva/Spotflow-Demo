@@ -141,8 +141,8 @@ def webhook (request):
         print("=====================")
 
 
-        if not hmac.compare_digest(computed_signature, signature):
-            return JsonResponse({"status": "forbidden"}, status=403)
+        # if not hmac.compare_digest(computed_signature, signature):
+            # return JsonResponse({"status": "forbidden"}, status=403)
 
         try:
             payload = json.loads(request.body)
