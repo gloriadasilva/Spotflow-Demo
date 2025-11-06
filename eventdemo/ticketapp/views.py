@@ -127,26 +127,25 @@ def webhook (request):
         signature = request.headers.get("x-spotflow-signature")
         payload = request.body
 
-        payloadJson = json.loads(payload)
-        payloadString = json.dumps(payloadJson, separators=(',', ':'))
 
-        computed_signature = hmac.new(
-          secretKey.encode(),
-          payloadString.encode(),
-          hashlib.sha512
-       ).hexdigest()
+    #     computed_signature = hmac.new(
+    #       secretKey.encode(),
+    #       payload,
+    #       hashlib.sha512
+    #    ).hexdigest()
        
-        print("=== WEBHOOK DEBUG ===")
-        print("Received Signature:", signature)
-        print("Computed Signature:", computed_signature)
-        print("Payload:", payload.decode("utf-8"))
-        print("=====================")
+    #     print("=== WEBHOOK DEBUG ===")
+    #     print("Received Signature:", signature)
+    #     print("Computed Signature:", computed_signature)
+    #     print("Payload:", payload.decode("utf-8"))
+    #     print("=====================")
 
 
-        if not hmac.compare_digest(computed_signature, signature):
-            return JsonResponse({"status": "forbidden"}, status=403)
+    #     if not hmac.compare_digest(computed_signature, signature):
+    #         return JsonResponse({"status": "forbidden"}, status=403)
 
         try:
+
             payload = json.loads(request.body)
             eventType = payload.get("event")
             data = payload.get("data", {})
